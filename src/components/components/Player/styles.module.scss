@@ -1,0 +1,93 @@
+.container {
+  height: 100vh;
+  width: 100%;
+  max-width: 26.5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--purple-500);
+
+  padding: 2.25rem 4rem 3rem;
+  color: var(--white);
+
+  strong {
+    font-family: "Lexend", sans-serif;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+
+    strong {
+      font-size: 1rem;
+      color: var(--white);
+      margin-left: 1rem;
+    }
+  }
+
+  .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 21.625rem;
+    padding: 0 4rem;
+    border: 1.5px dashed var(--purple-300);
+    border-radius: 1.5rem;
+    background: linear-gradient(
+      143.8deg,
+      rgba(145, 100, 250, 0.8) 0%,
+      rgba(73, 64, 95, 0) 100%
+    );
+
+    text-align: center;
+  }
+
+  footer {
+    width: 100%;
+
+    &.emptyFooter {
+      opacity: 0.5;
+    }
+
+    .progress {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      font-size: 0.875rem;
+
+      .bar {
+        margin: 0 0.875rem;
+        width: 100%;
+        height: 0.25rem;
+        border-radius: 0.625rem;
+        background-color: var(--purple-300);
+      }
+    }
+
+    .buttons {
+      width: 100%;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2.45rem;
+
+      button {
+        border: 0;
+        font-size: 0;
+        background-color: transparent;
+        outline: none;
+
+        &.playButton {
+          padding: 1rem;
+          border-radius: 1rem;
+          background-color: var(--purple-400);
+        }
+      }
+    }
+  }
+}
