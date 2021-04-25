@@ -1,7 +1,7 @@
 import "../styles/global.scss";
 
-import { Header } from "../components/components/Header";
-import { Player } from "../components/components/Player";
+import { Header } from "../components/Header";
+import { Player } from "../components/Player";
 
 import s from "../styles/app.module.scss";
 
