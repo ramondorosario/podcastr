@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import { GetStaticProps } from "next";
@@ -19,7 +20,6 @@ interface IEpisode {
   members: string;
   published_at: string;
   thumbnail: string;
-  description: string;
   file: IFile;
 }
 
@@ -47,7 +47,9 @@ export default function Home(props: IHomesProps) {
                   alt={episode.title}
                 />
                 <div className={s.details}>
-                  <a href="">{episode.title}</a>
+                  <Link href={`/episode/${episode.id}`}>
+                    <a>{episode.title}</a>
+                  </Link>
                   <p>{episode.members}</p>
                   <span>{episode.published_at}</span>
                   <span>{episode.file.duration}</span>
@@ -86,7 +88,9 @@ export default function Home(props: IHomesProps) {
                     />
                   </td>
                   <td>
-                    <a href="">{episode.title}</a>
+                    <Link href={`/episode/${episode.id}`}>
+                      <a>{episode.title}</a>
+                    </Link>
                   </td>
                   <td>{episode.members}</td>
                   <td className={s.date}>{episode.published_at}</td>
