@@ -15,7 +15,6 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter&family=Lexend:wght@500;600&display=swap"
             rel="stylesheet"
           />
-          <title>Podcastr</title>
         </Head>
         <body>
           <Main />
