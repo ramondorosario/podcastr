@@ -3,8 +3,8 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import { GetStaticProps } from "next";
-import { api } from "../components/services/api";
-import { convertDurationToTimeString } from "../components/utils/convertDurationToTimeString";
+import { api } from "../services/api";
+import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
 
 import s from "../styles/home.module.scss";
 
