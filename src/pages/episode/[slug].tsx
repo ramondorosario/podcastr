@@ -1,9 +1,12 @@
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { api } from "../../components/services/api";
-import { convertDurationToTimeString } from "../../components/utils/convertDurationToTimeString";
-import { useRouter } from "next/router";
+import { api } from "../../services/api";
+import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
+import Image from "next/image";
+import Link from "next/link";
+
+import s from "./styles.module.scss";
 
 interface IFile {
   url: string;
@@ -26,7 +29,37 @@ interface IEpisodeProps {
 }
 
 const Episode = ({ episode }: IEpisodeProps) => {
-  return <h2>{episode.title}</h2>;
+  return (
+    <div className={s.container}>
+      <div className={s.content}>
+        <div className={s.thumbnail}>
+          <Link href="/">
+            <button>
+              <img src="/images/arrow-left.svg" alt="Voltar post" />
+            </button>
+          </Link>
+          <Image
+            width={720}
+            height={220}
+            objectFit="cover"
+            src={episode.thumbnail}
+          />
+          <button>
+            <img src="/images/play.svg" alt="Tocar agora" />
+          </button>
+        </div>
+        <div className={s.description}>
+          <div className={s.header}>
+            <h2>{episode.title}</h2>
+            <span>{episode.members}</span>
+            <span>{episode.published_at}</span>
+            <span>{episode.file.duration}</span>
+          </div>
+          <div dangerouslySetInnerHTML={{ __html: episode.description }} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
