@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
+import Link from "next/link";
+
 import s from "./styles.module.scss";
 
 export const Header = () => {
@@ -7,7 +9,11 @@ export const Header = () => {
 
   return (
     <header className={s.container}>
-      <img src="/images/logo.svg" alt="Podcastr" />
+      <Link href="/">
+        <a>
+          <img src="/images/logo.svg" alt="Podcastr" />
+        </a>
+      </Link>
       <div className={s.separate} />
       <p>O melhor para você ouvir, sempre</p>
       <span>{currentDate}</span>
