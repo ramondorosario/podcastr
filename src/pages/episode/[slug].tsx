@@ -11,7 +11,8 @@ import s from "./styles.module.scss";
 interface IFile {
   url: string;
   type: string;
-  duration: string;
+  duration: number;
+  durationAsString: string;
 }
 
 interface IEpisode {
@@ -35,7 +36,7 @@ const Episode = ({ episode }: IEpisodeProps) => {
         <div className={s.thumbnail}>
           <Link href="/">
             <button>
-              <img src="/images/arrow-left.svg" alt="Voltar post" />
+              <img src="/images/arrow-left.svg" alt="Voltar página" />
             </button>
           </Link>
           <Image
@@ -53,7 +54,7 @@ const Episode = ({ episode }: IEpisodeProps) => {
             <h2>{episode.title}</h2>
             <span>{episode.members}</span>
             <span>{episode.published_at}</span>
-            <span>{episode.file.duration}</span>
+            <span>{episode.file.durationAsString}</span>
           </div>
           <div dangerouslySetInnerHTML={{ __html: episode.description }} />
         </div>
@@ -75,7 +76,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   const { published_at, file, ...datas }: IEpisode = data;
 
-  file.duration = convertDurationToTimeString(Number(file.duration));
+  file.durationAsString = convertDurationToTimeString(file.duration);
 
   const episode = {
     published_at: dayjs(published_at).locale("pt-br").format("D, MMM YY"),
