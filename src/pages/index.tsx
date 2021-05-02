@@ -5,13 +5,15 @@ import "dayjs/locale/pt-br";
 import { GetStaticProps } from "next";
 import { api } from "../services/api";
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
-
+import { useContext } from "react";
+import { PlayerContext } from "../contexts/PlayerContext";
 import s from "../styles/home.module.scss";
 
 interface IFile {
   url: string;
   type: string;
-  duration: string;
+  duration: number;
+  durationAsString: string;
 }
 
 interface IEpisode {
@@ -30,6 +32,7 @@ interface IHomesProps {
 
 export default function Home(props: IHomesProps) {
   const { latestEpisodes, allEpisodes } = props;
+  const { play } = useContext(PlayerContext);
 
   return (
     <div className={s.container}>
@@ -52,10 +55,14 @@ export default function Home(props: IHomesProps) {
                   </Link>
                   <p>{episode.members}</p>
                   <span>{episode.published_at}</span>
-                  <span>{episode.file.duration}</span>
+                  <span>{episode.file.durationAsString}</span>
                 </div>
-                <button>
-                  <img src="/images/play-green.svg" alt="Tocar" />
+                <button
+                  onClick={() => {
+                    play(episode);
+                  }}
+                >
+                  <img src="/images/play-green.svg" alt="Tocar podcast" />
                 </button>
               </li>
             );
@@ -94,9 +101,13 @@ export default function Home(props: IHomesProps) {
                   </td>
                   <td>{episode.members}</td>
                   <td className={s.date}>{episode.published_at}</td>
-                  <td>{episode.file.duration}</td>
+                  <td>{episode.file.durationAsString}</td>
                   <td>
-                    <button>
+                    <button
+                      onClick={() => {
+                        play(episode);
+                      }}
+                    >
                       <img src="/images/play-green.svg" alt="Tocar podcast" />
                     </button>
                   </td>
@@ -122,7 +133,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const episodes = data.map((episode: IEpisode) => {
     const { published_at, file, ...datas } = episode;
 
-    file.duration = convertDurationToTimeString(Number(file.duration));
+    file.durationAsString = convertDurationToTimeString(file.duration);
 
     return {
       published_at: dayjs(published_at).locale("pt-br").format("D, MMM YY"),

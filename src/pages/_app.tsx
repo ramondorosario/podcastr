@@ -6,10 +6,11 @@ import { Player } from "../components/Player";
 import Head from "next/head";
 
 import s from "../styles/app.module.scss";
+import { PlayerContextProvider } from "../contexts/PlayerContext";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <PlayerContextProvider>
       <Head>
         <title>Podcastr</title>
       </Head>
@@ -20,7 +21,7 @@ function MyApp({ Component, pageProps }) {
         </main>
         <Player />
       </div>
-    </>
+    </PlayerContextProvider>
   );
 }
 
