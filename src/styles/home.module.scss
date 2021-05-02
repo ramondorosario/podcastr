@@ -105,6 +105,10 @@
 
           transition: filter 0.2s;
 
+          &:focus-visible {
+            border-color: var(--gray-150);
+          }
+
           &:hover {
             filter: brightness(0.95);
           }
@@ -182,6 +186,10 @@
           img {
             width: 1.25rem;
             height: 1.25rem;
+          }
+
+          &:focus-visible {
+            border-color: var(--gray-150);
           }
 
           &:hover {

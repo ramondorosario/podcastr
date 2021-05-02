@@ -28,6 +28,12 @@
         border: 0;
         z-index: 1;
 
+        transition: filter 0.2s;
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+
         &:first-child {
           background-color: var(--purple-300);
           position: absolute;

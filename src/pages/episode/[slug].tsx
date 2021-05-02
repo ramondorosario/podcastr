@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import s from "./styles.module.scss";
+import { useContext } from "react";
+import { PlayerContext } from "../../contexts/PlayerContext";
 
 interface IFile {
   url: string;
@@ -30,6 +32,8 @@ interface IEpisodeProps {
 }
 
 const Episode = ({ episode }: IEpisodeProps) => {
+  const { play, episodeList } = useContext(PlayerContext);
+
   return (
     <div className={s.container}>
       <div className={s.content}>
@@ -45,7 +49,7 @@ const Episode = ({ episode }: IEpisodeProps) => {
             objectFit="cover"
             src={episode.thumbnail}
           />
-          <button>
+          <button onClick={() => play(episode)}>
             <img src="/images/play.svg" alt="Tocar agora" />
           </button>
         </div>

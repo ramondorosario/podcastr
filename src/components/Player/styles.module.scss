@@ -108,11 +108,15 @@
       margin-top: 2.45rem;
 
       button {
-        border: 0;
+        border: 1px solid transparent;
         font-size: 0;
         background-color: transparent;
         outline: none;
         transition: filter 0.2s;
+
+        &:focus-visible {
+          border: 1px solid white;
+        }
 
         &:disabled {
           cursor: default;
@@ -123,7 +127,9 @@
         }
 
         &.playButton {
-          padding: 1rem;
+          width: 4rem;
+          height: 4rem;
+          font-size: 0;
           border-radius: 1rem;
           background-color: var(--purple-400);
 
