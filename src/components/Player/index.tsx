@@ -1,22 +1,51 @@
 import Image from "next/image";
-import { useContext, useEffect, useRef } from "react";
-import { PlayerContext } from "../../contexts/PlayerContext";
+
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
+import { Repeat } from "../svg/Repeat";
+import { Shuffle } from "../svg/Shuffle";
+
+import { useEffect, useRef, useState } from "react";
+import { usePlayer } from "../../contexts/PlayerContext";
+
 import s from "./styles.module.scss";
+import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
 
 export const Player = () => {
   const {
     togglePlay,
     setPlayingState,
+    playNext,
+    playPrevious,
+    toggleShuffle,
+    toggleLoop,
+    isLooping,
+    isShuflling,
+    hasNextEpisode,
+    hasPreviousEpisode,
     isPlaying,
     episodeList,
     currentEpisodeIndex,
-  } = useContext(PlayerContext);
+  } = usePlayer();
+
+  const [progress, setProgress] = useState<number>(0);
 
   const episode = episodeList[currentEpisodeIndex];
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  const setupProgressListener = () => {
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.addEventListener("timeupdate", () => {
+      setProgress(Math.floor(audioRef.current.currentTime));
+    });
+  };
+
+  const handleSeek = (amount: number) => {
+    audioRef.current.currentTime = amount;
+    setProgress(amount);
+  };
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -54,9 +83,12 @@ export const Player = () => {
       )}
       <footer className={!episode ? s.emptyFooter : ""}>
         <div className={s.progress}>
-          <span>00:00</span>
+          <span>{convertDurationToTimeString(progress)}</span>
           {episode ? (
             <Slider
+              max={episode.file.duration}
+              value={progress}
+              onChange={handleSeek}
               className={s.playingBar}
               trackStyle={{ backgroundColor: "#04D361" }}
               railStyle={{ backgroundColor: "#9F75FF" }}
@@ -65,13 +97,24 @@ export const Player = () => {
           ) : (
             <div className={s.emptyBar} />
           )}
-          <span>00:00</span>
+          <span>
+            {convertDurationToTimeString(episode?.file.duration ?? 0)}
+          </span>
         </div>
         <div className={s.buttons}>
-          <button disabled={!episode}>
-            <img src="/images/shuffle.svg" alt="Embaralhar" />
+          <button
+            disabled={!episode || episodeList.length === 1}
+            className={isShuflling ? s.shuffle : ""}
+            onClick={() => {
+              toggleShuffle();
+            }}
+          >
+            <Shuffle />
           </button>
-          <button disabled={!episode}>
+          <button
+            disabled={!episode || !hasPreviousEpisode}
+            onClick={playPrevious}
+          >
             <img src="/images/play-previous.svg" alt="Tocar anterior" />
           </button>
           <button
@@ -85,21 +128,29 @@ export const Player = () => {
               <img src="/images/play.svg" alt="Tocar" />
             )}
           </button>
-          <button disabled={!episode}>
+          <button disabled={!episode || !hasNextEpisode} onClick={playNext}>
             <img src="/images/play-next.svg" alt="Tocar próxima" />
           </button>
-          <button disabled={!episode}>
-            <img src="/images/repeat.svg" alt="Repetir" />
+          <button
+            className={isLooping ? s.repeat : ""}
+            disabled={!episode}
+            onClick={() => {
+              toggleLoop();
+            }}
+          >
+            <Repeat />
           </button>
         </div>
 
         {episode && (
           <audio
             ref={audioRef}
-            src={episode.file.url}
+            src={episodeList[currentEpisodeIndex].file.url}
+            loop={isLooping}
             autoPlay
             onPlay={() => setPlayingState(true)}
             onPause={() => setPlayingState(false)}
+            onLoadedMetadataCapture={setupProgressListener}
           />
         )}
       </footer>
