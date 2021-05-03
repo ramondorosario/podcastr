@@ -1,12 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
-import { GetStaticProps } from "next";
+
+import Image from "next/image";
+import Link from "next/link";
+
 import { api } from "../services/api";
+import { GetStaticProps } from "next";
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
-import { useContext } from "react";
-import { PlayerContext } from "../contexts/PlayerContext";
+import { usePlayer } from "../contexts/PlayerContext";
+
 import s from "../styles/home.module.scss";
 
 interface IFile {
@@ -32,14 +34,16 @@ interface IHomesProps {
 
 export default function Home(props: IHomesProps) {
   const { latestEpisodes, allEpisodes } = props;
-  const { play } = useContext(PlayerContext);
+  const { playList } = usePlayer();
+
+  const podcastList = [...latestEpisodes, ...allEpisodes];
 
   return (
     <div className={s.container}>
       <section className={s.latestEpisodes}>
         <h2>Ultimos lançamentos</h2>
         <ul>
-          {latestEpisodes.map((episode) => {
+          {latestEpisodes.map((episode, index) => {
             return (
               <li key={episode.id}>
                 <Image
@@ -57,11 +61,7 @@ export default function Home(props: IHomesProps) {
                   <span>{episode.published_at}</span>
                   <span>{episode.file.durationAsString}</span>
                 </div>
-                <button
-                  onClick={() => {
-                    play(episode);
-                  }}
-                >
+                <button onClick={() => playList(podcastList, index)}>
                   <img src="/images/play-green.svg" alt="Tocar podcast" />
                 </button>
               </li>
@@ -82,7 +82,7 @@ export default function Home(props: IHomesProps) {
             </tr>
           </thead>
           <tbody>
-            {allEpisodes.map((episode) => {
+            {allEpisodes.map((episode, index) => {
               return (
                 <tr key={episode.id}>
                   <td className={s.image}>
@@ -104,9 +104,9 @@ export default function Home(props: IHomesProps) {
                   <td>{episode.file.durationAsString}</td>
                   <td>
                     <button
-                      onClick={() => {
-                        play(episode);
-                      }}
+                      onClick={() =>
+                        playList(podcastList, index + latestEpisodes.length)
+                      }
                     >
                       <img src="/images/play-green.svg" alt="Tocar podcast" />
                     </button>
