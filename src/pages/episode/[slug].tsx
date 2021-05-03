@@ -1,14 +1,15 @@
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { api } from "../../services/api";
-import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
+
 import Image from "next/image";
 import Link from "next/link";
 
+import { api } from "../../services/api";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
+import { usePlayer } from "../../contexts/PlayerContext";
+
 import s from "./styles.module.scss";
-import { useContext } from "react";
-import { PlayerContext } from "../../contexts/PlayerContext";
 
 interface IFile {
   url: string;
@@ -32,7 +33,7 @@ interface IEpisodeProps {
 }
 
 const Episode = ({ episode }: IEpisodeProps) => {
-  const { play, episodeList } = useContext(PlayerContext);
+  const { play } = usePlayer();
 
   return (
     <div className={s.container}>
