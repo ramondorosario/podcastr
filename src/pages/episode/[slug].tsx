@@ -69,8 +69,22 @@ const Episode = ({ episode }: IEpisodeProps) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await api.get("episodes", {
+    params: {
+      __limit: 10,
+      __sort: "published_at",
+      __order: "desc",
+    },
+  });
+
+  const paths = data.map((episode: IEpisode) => {
+    return {
+      params: { slug: episode.id },
+    };
+  });
+
   return {
-    paths: [],
+    paths,
     fallback: "blocking",
   };
 };
