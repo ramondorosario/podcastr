@@ -112,7 +112,7 @@ export const Player = () => {
             <Shuffle />
           </button>
           <button
-            disabled={!episode || !hasPreviousEpisode}
+            disabled={!episode || (!hasPreviousEpisode && !isShuflling)}
             onClick={playPrevious}
           >
             <img src="/images/play-previous.svg" alt="Tocar anterior" />
@@ -128,7 +128,10 @@ export const Player = () => {
               <img src="/images/play.svg" alt="Tocar" />
             )}
           </button>
-          <button disabled={!episode || !hasNextEpisode} onClick={playNext}>
+          <button
+            disabled={!episode || (!hasNextEpisode && !isShuflling)}
+            onClick={playNext}
+          >
             <img src="/images/play-next.svg" alt="Tocar próxima" />
           </button>
           <button

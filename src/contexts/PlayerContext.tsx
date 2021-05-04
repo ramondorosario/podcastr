@@ -41,6 +41,19 @@ export const PlayerContextProvider: React.FC = ({ children }) => {
   const [isShuflling, setIsShuffling] = useState<boolean>(false);
   const [indexsShuffled, setIndexsShuffled] = useState<number[]>([]);
 
+  const numbersShuffled = () => {
+    const array: number[] = [];
+
+    while (array.length < episodeList.length) {
+      const index = Math.floor(Math.random() * episodeList.length);
+      if (!array.includes(index)) {
+        array.push(index);
+      }
+    }
+
+    setIndexsShuffled(array);
+  };
+
   const play = (episode: IEpisode) => {
     setEpisodeList([episode]);
     setCurrentEpisodeIndex(0);
@@ -59,15 +72,24 @@ export const PlayerContextProvider: React.FC = ({ children }) => {
 
   const playNext = () => {
     if (isShuflling) {
-      let index = Math.floor(Math.random() * episodeList.length);
-      setCurrentEpisodeIndex(index);
+      let index = indexsShuffled.findIndex((i) => i === currentEpisodeIndex);
+
+      if (index + 1 === indexsShuffled.length) index = 0;
+
+      setCurrentEpisodeIndex(indexsShuffled[index + 1]);
     } else if (hasNextEpisode) {
       setCurrentEpisodeIndex(currentEpisodeIndex + 1);
     }
   };
 
   const playPrevious = () => {
-    if (hasPreviousEpisode) {
+    if (isShuflling) {
+      let index = indexsShuffled.findIndex((i) => i === currentEpisodeIndex);
+
+      if (index - 1 < 0) index = indexsShuffled.length - 1;
+
+      setCurrentEpisodeIndex(indexsShuffled[index - 1]);
+    } else if (hasPreviousEpisode) {
       setCurrentEpisodeIndex(currentEpisodeIndex - 1);
     }
   };
@@ -85,6 +107,10 @@ export const PlayerContextProvider: React.FC = ({ children }) => {
   };
 
   const toggleShuffle = () => {
+    if (!isShuflling) {
+      numbersShuffled();
+      console.log({ indexsShuffled });
+    }
     setIsShuffling(!isShuflling);
   };
 
