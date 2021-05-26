@@ -9,8 +9,9 @@ import { Shuffle } from "../svg/Shuffle";
 import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "../../contexts/PlayerContext";
 
-import s from "./styles.module.scss";
 import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
+
+import s from "./styles.module.scss";
 
 export const Player = () => {
   const {
