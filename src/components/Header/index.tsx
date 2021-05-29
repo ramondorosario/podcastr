@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
+
 import Link from "next/link";
 
 import s from "./styles.module.scss";
