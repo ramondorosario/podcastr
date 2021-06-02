@@ -1,7 +1,7 @@
 # Projeto Podcastr
 
 ## Desenvolvimento de um web site de podcasts
-#### Este foi um projeto desenvolvido durante a NLW5 (Next Level Week), com o intuito de desenvolver conhecimento em NextJs. A aplicação foi desenvolvida para que as páginas fossem geradas de forma estática e otimizada utilizando os recursos oferecidos pelo NextJs.
+#### Este projeto foi desenvolvido durante a NLW5 (Next Level Week), com o intuito de desenvolver conhecimento em NextJs. A aplicação foi desenvolvida para que as páginas fossem geradas de forma estática e otimizada utilizando os recursos oferecidos pelo NextJs.
 
 ## Tecnologias utilizadas:
 - NextJs
